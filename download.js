@@ -1,8 +1,9 @@
 var fs = require('fs');
 var ytdl = require('ytdl');
 var youtube = require('youtube-node');
+var passwords = require('./passwords')
 var BASE = 'https://www.youtube.com/watch?v='
-youtube.setKey('AIzaSyB1OOSpTREs85WUMvIgJvLTZKye4BVsoFU');
+youtube.setKey(passwords.youtube);
 var DOWNLOAD_DIR = 'C:/Programming/web/music/songs/'
 
 exports.download_dir = function() {
