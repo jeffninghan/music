@@ -36,7 +36,7 @@ exports.albumSearch = function(artist, album, cbk) {
 		album: album
 	}, function(err, album) {
 		var tracks = []
-		async.forEachSeries(album.tracks.track, function(track, cbk1) {           //something wrong with async i think
+		async.forEachSeries(album.tracks.track, function(track, cbk1) {
 			tracks.push(track.name)
 			cbk1()
 		}, function() {
@@ -44,30 +44,3 @@ exports.albumSearch = function(artist, album, cbk) {
 		})
 	});
 };
-
-// lfm.album.getInfo({
-//     'artist' : 'Vampire Weekend',
-//     'album' : 'Modern Vampires of the City'
-// }, function (err, album) {
-//     if (err) { throw err; }
-//     for (var i = 0; i < album.tracks.track.length; i ++) {
-//     	console.log(album.tracks.track[i])
-//     }
-//     //console.log(track);
-// });
-
-// lfm.track.getInfo({
-// 	'artist' : 'Walk the Moon',
-// 	'track' : 'Jenny'
-// }, function(err, track) {
-// 	console.log(track)
-// })
-
-// lfm.artist.getTopAlbums({
-// 	'artist' : 'Kanye West'
-// }, function(err, artist) {
-// 	for (var i = 0; i < artist.album.length; i ++) {
-// 		console.log(artist.album[i].name)
-// 	}
-// 	//console.log(artist)
-// })

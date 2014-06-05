@@ -26,6 +26,12 @@ app.use(session({secret: '1234567890QWERTY', proxy: true}));
 app.use('/', routes);
 app.use('/users', users);
 
+// Database setup
+var mongoose = require("mongoose");
+var _ = require("underscore");
+var passwords = require('./passwords')
+mongoose.connect(passwords.mongo)
+
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
