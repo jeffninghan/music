@@ -1,7 +1,7 @@
 var fs = require('fs');
 var ytdl = require('ytdl');
 var youtube = require('youtube-node');
-var passwords = require('./passwords')
+var passwords = require('../passwords')
 var BASE = 'https://www.youtube.com/watch?v='
 youtube.setKey(passwords.youtube);
 var DOWNLOAD_DIR = 'C:/Programming/web/music/songs/'
@@ -12,7 +12,7 @@ exports.download_dir = function() {
 
 exports.download = function(artist, song, cbk) {
 	youtube.search(artist + ' ' + song +' lyrics', 5, function(resultData) {
-		console.log(resultData.items[0].id.videoId)
+		console.log('download/download.js: ' + resultData.items[0].id.videoId)
 	    var req = ytdl(BASE + resultData.items[0].id.videoId, { filter: function(format) { return format.container === 'mp4'; } })
 	    var ws = fs.createWriteStream(DOWNLOAD_DIR + 'song.mp4')
 	    req.pipe(ws)

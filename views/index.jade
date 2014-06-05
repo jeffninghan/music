@@ -1,0 +1,28 @@
+extends layout
+
+block content
+	a(href='/restart') Restart
+	h1= title
+	if !artist
+		form(action='/',method='post')
+			p Artist
+			input(id='title',type='text',value='', name='artist')
+			p
+			button(class='btn', data-action='artist') Search
+	if artist
+		h2 Artist
+		p #{artist}
+	if albums
+		form(action='/download', method='post')
+			button(class='btn', data-action='download') Download
+			p
+			each album in albums
+				input(type='checkbox', checked=false, name='Album: '+album.name) 
+				| <b> Album: #{album.name} </b>
+				p
+				each track in album.tracks
+					input(type='checkbox', checked=false, name=track) 
+					| #{track}
+					p
+			button(class='btn', data-action='download') Download
+
