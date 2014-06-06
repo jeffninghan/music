@@ -10,6 +10,9 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var app = express();
 
+VERBOSE = require('./lib/setup').VERBOSE;
+ERROR = require('./lib/error/errors')
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -29,7 +32,7 @@ app.use('/users', users);
 // Database setup
 var mongoose = require("mongoose");
 var _ = require("underscore");
-var passwords = require('./passwords')
+var passwords = require('./lib/passwords')
 mongoose.connect(passwords.mongo)
 
 /// catch 404 and forward to error handler

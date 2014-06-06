@@ -3,3 +3,6 @@ extends layout
 block content
 	h1 Download Complete!
 	a(href='/restart') Home
+	if miss
+		each song in miss
+			p song

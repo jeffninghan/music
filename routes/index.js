@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var download = require('../download/run');
-var utils = require('../utils/utilities');
+var download = require('../lib/download/run');
+var utils = require('../lib/utils/utilities');
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -11,11 +11,21 @@ router.get('/', function(req, res) {
 });
 
 router.post('/', function(req, res) {
-	req.session.artist = req.body.artist
-	var artist = req.body.artist
-	utils.getSongList(artist, function(albums) {
-		req.session.albums = albums
-		res.redirect('/')
+	req.session.artist = req.body.artist.toUpperCase()
+	utils.getSongList(req.session.artist, function(err, albums) {
+		if (err) { 
+			req.session.err = err;
+			res.redirect('/error')
+		}
+		else {
+			if (albums !== null) {
+				req.session.albums = albums
+				res.redirect('/')
+			}
+			else {
+				res.redirect('/notfound')
+			}
+		}
 	})
 });
 
@@ -26,17 +36,31 @@ router.get('/restart', function(req, res) {
 });
 
 router.get('/download', function(req, res) {
-	download.run(req.session.artist, req.session.download, function() {
-		res.render('download')
+	download.run(req.session.artist, req.session.download, function(miss) {
+		res.render('download', {miss: miss})
 	})
 });
 
 router.post('/download', function(req, res) {
 	var music = Object.keys(req.body)
-	utils.getSongs(req, music, function(songs) {
-		req.session.download = songs
-		res.redirect('/download')
+	utils.getSongs(req, music, function(err, songs) {
+		if (err) {
+			req.session.err = err;
+			res.redirect('/error');
+		}
+		else {
+			req.session.download = songs
+			res.redirect('/download')
+		}
 	})
 });
 
+router.get('/error', function(req, res) {
+	if (VERBOSE) console.log(req.session.err);
+	res.render('error', { title: 'Error Occured!', err: req.session.err})
+})
+
+router.get('/notfound', function(req, res) {
+	res.render('notfound', { title: 'Not Found', artist: req.session.artist})
+})
 module.exports = router;
