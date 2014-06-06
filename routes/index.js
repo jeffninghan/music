@@ -11,8 +11,8 @@ router.get('/', function(req, res) {
 });
 
 router.post('/', function(req, res) {
-	req.session.artist = req.body.artist.toUpperCase()
-	utils.getSongList(req.session.artist, function(err, albums) {
+	req.session.artist = req.body.artist
+	utils.getSongList(req, req.session.artist, function(err, albums) {
 		if (err) { 
 			req.session.err = err;
 			res.redirect('/error')
