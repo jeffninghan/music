@@ -25,3 +25,5 @@ module.exports = { 	lastfm_apikey: 'api key from lastfm',
 ####TODO:
 ######update artist database when new album released (batch server)
 ######use echoprint to make a song recognition module
+
+####for testing branch
